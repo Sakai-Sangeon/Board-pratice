@@ -5,6 +5,11 @@ export const getAllPosts = (callback: (err: any, results: RowDataPacket[]) => vo
     db.query<RowDataPacket[]>('SELECT * FROM posts', callback);
 };
 
+// 단건 조회 추가
+export const getPostById = (id: string, callback: (err: any, results: RowDataPacket[]) => void): void => {
+    db.query<RowDataPacket[]>('SELECT * FROM posts WHERE id = ?', [id], callback);
+};
+
 export const createPost = (title: string, content: string, author: string, callback: (err: any, result: OkPacket) => void): void => {
     db.query<OkPacket>(
         'INSERT INTO posts (title, content, author) VALUES (?, ?, ?)',

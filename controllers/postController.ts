@@ -8,6 +8,16 @@ export const getAllPosts = (req: Request, res: Response): void => {
     });
 };
 
+// 단건 조회 추가
+export const getPostById = (req: Request, res: Response): void => {
+    const id = req.params.id as string;
+    postService.getPostById(id, (err, results) => {
+        if (err) { res.status(500).send(err); return; }
+        if (results.length === 0) { res.status(404).send('게시글 없음'); return; }
+        res.json(results[0]);
+    });
+};
+
 export const createPost = (req: Request, res: Response): void => {
     const { title, content, author } = req.body;
     postService.createPost(title, content, author, (err) => {
