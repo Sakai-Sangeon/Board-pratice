@@ -5,15 +5,15 @@ export const getAllPosts = (callback: (err: any, results: RowDataPacket[]) => vo
     db.query<RowDataPacket[]>('SELECT * FROM posts', callback);
 };
 
-// 단건 조회 추가
 export const getPostById = (id: string, callback: (err: any, results: RowDataPacket[]) => void): void => {
     db.query<RowDataPacket[]>('SELECT * FROM posts WHERE id = ?', [id], callback);
 };
 
-export const createPost = (title: string, content: string, author: string, callback: (err: any, result: OkPacket) => void): void => {
+// uid 추가
+export const createPost = (title: string, content: string, author: string, uid: string, callback: (err: any, result: OkPacket) => void): void => {
     db.query<OkPacket>(
-        'INSERT INTO posts (title, content, author) VALUES (?, ?, ?)',
-        [title, content, author],
+        'INSERT INTO posts (title, content, author, uid) VALUES (?, ?, ?, ?)',
+        [title, content, author, uid],
         callback
     );
 };
@@ -27,9 +27,10 @@ export const updatePost = (id: string, title: string, content: string, author: s
 };
 
 export const deletePost = (id: string, callback: (err: any, result: OkPacket) => void): void => {
-    db.query<OkPacket>(
-        'DELETE FROM posts WHERE id = ?',
-        [id],
-        callback
-    );
+    db.query<OkPacket>('DELETE FROM posts WHERE id = ?', [id], callback);
+};
+
+// 작성자 uid 조회용
+export const getPostUid = (id: string, callback: (err: any, results: RowDataPacket[]) => void): void => {
+    db.query<RowDataPacket[]>('SELECT uid FROM posts WHERE id = ?', [id], callback);
 };
